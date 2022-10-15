@@ -1,21 +1,46 @@
-#include <stdio.h>
-#include <stdlib.h>
-#include "../sort.h"
+#include "sort.h"
 
 /**
- * main - Entry point
- *
- * Return: Always 0
+ * shell_sort - shell sorting algorithm using insertion sort on subarrays
+ * @array: array to sort
+ * @size: size of array
  */
-int main(void)
+void shell_sort(int *array, size_t size)
 {
-	int array[] = {19, 48, 99, 71, 13, 52, 96, 73, 86, 7};
-	size_t n = sizeof(array) / sizeof(array[0]);
+	size_t gap, i, j, k;
+	int tmp;
 
-	print_array(array, n);
-	printf("\n");
-	shell_sort(array, n);
-	printf("\n");
-	print_array(array, n);
-	return (0);
+	for (gap = 1; gap < size; gap = 3 * gap + 1)
+		;
+	for (gap /= 3; gap > 0; gap /= 3)
+	{
+		for (i = 0; i < gap; i++)
+		{
+			j = i;
+			while (j < size - gap)
+			{
+				if (array[j] > array[j + gap])
+				{
+					tmp = array[j];
+					array[j] = array[j + gap];
+					array[j + gap] = tmp;
+					for (k = j; k >= gap; k -= gap)
+					{
+					if (array[k] < array[k - gap])
+					{
+					tmp = array[k];
+					array[k] = array[k - gap];
+					array[k - gap] = tmp;
+					}
+					else
+					break;
+					}
+				}
+				else
+					j += gap;
+			}
+		}
+		print_array(array, size);
+
+	}
 }
